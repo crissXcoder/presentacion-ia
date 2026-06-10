@@ -19,7 +19,7 @@ export function McpDiagram() {
       viewBox="0 0 440 260"
       role="img"
       aria-label="Diagrama del protocolo MCP: un puente bidireccional entre el modelo de lenguaje y los datos privados que abre vectores de riesgo como la inyección de prompts y la fuga de datos"
-      className="w-full"
+      className="w-full max-h-[45vh]"
       data-reveal
     >
       {/* Nodo LLM */}

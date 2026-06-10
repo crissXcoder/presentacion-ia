@@ -70,7 +70,7 @@ function SlideVisualArea({ data }: { data: SlideData }) {
     const Diagram = diagramComponents[data.visual];
     if (Diagram) {
       return (
-        <div className="flex w-full items-center justify-center">
+        <div className="flex w-full items-center justify-center overflow-hidden">
           <Diagram />
         </div>
       );
@@ -156,7 +156,7 @@ export function Slide({
           ? `Diapositiva de respaldo: ${data.title}`
           : `Diapositiva ${index} de ${total}: ${data.title}`
       }
-      className="relative isolate flex h-full w-full flex-col gap-10 bg-bg p-slide text-fg"
+      className="relative isolate flex h-full w-full flex-col gap-[clamp(1rem,3vh,2.5rem)] bg-bg p-slide text-fg"
     >
       {data.section === "portada" && <PortadaBackground />}
       <header

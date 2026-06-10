@@ -14,6 +14,7 @@ interface DeckNavigationArgs {
   isIndexOpen: boolean;
   toggleIndex: () => void;
   closeIndex: () => void;
+  togglePresenter: () => void;
 }
 
 /**
@@ -31,6 +32,7 @@ export function useDeckNavigation({
   isIndexOpen,
   toggleIndex,
   closeIndex,
+  togglePresenter,
 }: DeckNavigationArgs): void {
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -42,6 +44,10 @@ export function useDeckNavigation({
       }
       if (event.key === "i" || event.key === "I") {
         toggleIndex();
+        return;
+      }
+      if (event.key === "p" || event.key === "P") {
+        togglePresenter();
         return;
       }
       // Con el índice abierto, las flechas no cambian de slide por debajo.
@@ -72,7 +78,7 @@ export function useDeckNavigation({
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [step, goHome, goEnd, isIndexOpen, toggleIndex, closeIndex]);
+  }, [step, goHome, goEnd, isIndexOpen, toggleIndex, closeIndex, togglePresenter]);
 
   useEffect(() => {
     function onPopState() {

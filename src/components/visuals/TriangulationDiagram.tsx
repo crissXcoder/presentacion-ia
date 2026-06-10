@@ -19,7 +19,7 @@ export function TriangulationDiagram() {
       viewBox="0 0 440 260"
       role="img"
       aria-label="Diagrama de triangulación: el análisis documental y las entrevistas a expertos convergen en los hallazgos"
-      className="w-full"
+      className="w-full max-h-[45vh]"
       data-reveal
     >
       {/* Fuente 1: análisis documental */}

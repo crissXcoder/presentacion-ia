@@ -16,7 +16,7 @@ export function ComplexityCurve() {
       viewBox="0 0 420 300"
       role="img"
       aria-label="Curva descendente: al aumentar la complejidad técnica, la explicabilidad disminuye hasta la zona de caja negra"
-      className="w-full"
+      className="w-full max-h-[45vh]"
       data-reveal
     >
       {/* Ejes */}

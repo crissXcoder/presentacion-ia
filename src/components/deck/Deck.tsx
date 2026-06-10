@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { DeckControls } from "@/components/deck/DeckControls";
+import { PresenterPanel } from "@/components/deck/PresenterPanel";
 import { ProgressBar } from "@/components/deck/ProgressBar";
 import { SlideIndex } from "@/components/deck/SlideIndex";
 import {
@@ -43,6 +44,7 @@ export function Deck({
   const [current, setCurrent] = useState(initialIndex);
   const [incoming, setIncoming] = useState<number | null>(null);
   const [isIndexOpen, setIndexOpen] = useState(false);
+  const [isPresenterOpen, setPresenterOpen] = useState(false);
   const directionRef = useRef<1 | -1>(1);
   const currentRef = useRef<HTMLDivElement>(null);
   const incomingRef = useRef<HTMLDivElement>(null);
@@ -90,6 +92,7 @@ export function Deck({
     isIndexOpen,
     toggleIndex: () => setIndexOpen((open) => !open),
     closeIndex: () => setIndexOpen(false),
+    togglePresenter: () => setPresenterOpen((open) => !open),
   });
 
   const handleTransitionComplete = useCallback(() => {
@@ -163,6 +166,16 @@ export function Deck({
         onPrev={() => step(-1)}
         onNext={() => step(1)}
         onOpenIndex={() => setIndexOpen(true)}
+      />
+
+      <PresenterPanel
+        current={slides[displayIndex - 1]}
+        next={
+          displayIndex < (isBackup ? total : mainTotal)
+            ? slides[displayIndex]
+            : null
+        }
+        isOpen={isPresenterOpen}
       />
 
       <SlideIndex

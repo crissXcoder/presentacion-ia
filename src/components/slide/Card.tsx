@@ -9,7 +9,7 @@ export function Card({ title, body, source }: CardData) {
   return (
     <article
       data-reveal
-      className="flex flex-col gap-3 rounded-card border border-border bg-bg-elev/60 p-6 shadow-card backdrop-blur-sm"
+      className="flex flex-col gap-3 rounded-card border border-border bg-bg-elev/60 p-5 shadow-card backdrop-blur-sm"
     >
       <h3 className="font-display text-body-slide font-semibold text-fg">
         {title}

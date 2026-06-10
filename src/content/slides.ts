@@ -104,7 +104,10 @@ export const slides: SlideData[] = [
       "XAI: interpretar y trazar decisiones.",
       "Sin gobernanza desde el diseño, los sesgos se amplifican.",
     ],
-    visual: "image",
+    image: {
+      src: "/img/caja-negra.webp",
+      alt: "Cubo oscuro y opaco que representa la caja negra de la IA: flujos de datos entran por un lado y decisiones salen por el otro sin que el proceso interno sea visible",
+    },
     source: "Floridi (2023); Suresh & Guttag (2021)",
     notes: "Síntesis, no leer definiciones largas (regla de la guía).",
   },
@@ -258,8 +261,8 @@ export const slides: SlideData[] = [
   /*
    * Slides de respaldo (B1–B4): misma plantilla, fuera del flujo principal;
    * se alcanzan por índice o deep-link (/slide/17..20) para la ronda de
-   * preguntas. Las celdas marcadas "(anexo del paper)" esperan el dato
-   * exacto del anexo de la investigación; no se inventa contenido académico.
+   * preguntas. Contenido sintetizado del Capítulo 3 y los Anexos del paper
+   * (docs/Grupo 4 Taller 5 - REVISADO.docx), celdas a una línea (regla D1).
    */
   {
     id: 17,
@@ -273,24 +276,34 @@ export const slides: SlideData[] = [
       head: ["Categoría", "Concordancia", "Divergencia"],
       rows: [
         [
-          "a–c · Técnicas y habilitadores",
-          "Asistentes de código, agentes autónomos y MCP como técnicas centrales.",
-          "(anexo del paper)",
+          "a · Uso e impacto en el desarrollo",
+          "IA fundamental: automatiza tareas y eleva la productividad.",
+          "E1: agentes autónomos sobre el proyecto; E2: métrica del 66%.",
         ],
         [
-          "d · Opacidad y explicabilidad",
-          "Se prioriza usar sobre entender; riesgos erráticos y rabbit holes.",
-          "(anexo del paper)",
+          "b · Complejidad y aprendizaje",
+          "Alta complejidad; exige actualización práctica constante.",
+          "E1: contexto, skills y rabbit holes; E2: barrera matemática (Transformers).",
         ],
         [
-          "e · Gobernanza y cultura",
-          "Gobernanza incipiente; seguridad vista como gasto.",
-          "(anexo del paper)",
+          "c · Integración empresarial",
+          "El valor real surge al integrarse con la arquitectura existente.",
+          "E1: MCP para estructurar y bajar costo de tokens; E2: caso real de consulta de datos privados.",
+        ],
+        [
+          "d · Riesgos y limitaciones",
+          "No son infalibles; falsa sensación de seguridad con acceso amplio.",
+          "E1: inyección de prompts, filtración, dependencias; E2: desfase del mercado laboral.",
+        ],
+        [
+          "e · Gobernanza y gestión de riesgos",
+          "Gobernanza corporativa incipiente, madurez muy temprana.",
+          "E1: seguridad vista como gasto (postura reactiva); E2: devs desvinculados de la gobernanza.",
         ],
       ],
     },
     notes:
-      "Detalle de la matriz por categorías a–e. Completar las divergencias con el anexo del paper antes de exponer.",
+      "Detalle de la matriz por categorías a–e del Capítulo 3. E1/E2 = Entrevistado 1 y 2.",
   },
   {
     id: 18,
@@ -300,34 +313,41 @@ export const slides: SlideData[] = [
     title: "Cuadro de variables",
     table: {
       caption: "Operacionalización: objetivos, variables e instrumentos",
-      source: "Anexo del paper",
+      source: "Anexos del paper",
       head: ["Objetivo", "Variable", "Indicadores", "Técnica", "Instrumento"],
       rows: [
         [
-          "Describir",
-          "(anexo del paper)",
-          "(anexo del paper)",
+          "General · Evaluar",
+          "Complejidad técnica de la IA",
+          "Profundidad de modelos, parámetros, opacidad algorítmica",
+          "Análisis cualitativo integral",
+          "Triangulación: documental + entrevistas",
+        ],
+        [
+          "1 · Describir",
+          "Complejidad estructural de la IA",
+          "Tipos de modelos, uso de datos, infraestructura",
           "Análisis documental",
-          "Ficha de análisis",
+          "Revisión de fuentes académicas",
         ],
         [
-          "Analizar",
-          "(anexo del paper)",
-          "(anexo del paper)",
-          "Entrevista semiestructurada",
-          "Guía de entrevista",
+          "2 · Analizar",
+          "Opacidad algorítmica",
+          "«Caja negra», dificultad de interpretación, explicabilidad",
+          "Entrevistas a expertos",
+          "Guía de entrevista semiestructurada",
         ],
         [
-          "Proponer",
-          "(anexo del paper)",
-          "(anexo del paper)",
-          "Triangulación",
-          "Matriz de análisis",
+          "3 · Proponer",
+          "Gobernanza de la IA",
+          "Regulación, prácticas éticas, auditoría y control",
+          "Análisis cualitativo de entrevistas",
+          "Sistematización de aportes",
         ],
       ],
     },
     notes:
-      "Cuadro de variables completo del anexo. Completar variables e indicadores con el paper antes de exponer.",
+      "Cuadro de variables completo de los Anexos: operacionaliza objetivos → variables → indicadores → técnica → instrumento.",
   },
   {
     id: 19,
@@ -351,13 +371,16 @@ export const slides: SlideData[] = [
     kicker: "Respaldo · B4",
     title: "Guía de entrevista (5 secciones)",
     bullets: [
-      "Instrumento semiestructurado en 5 secciones temáticas.",
-      "Sección 1–5: (anexo del paper).",
-      "Aplicada a 2 expertos seleccionados por juicio.",
+      "1 · Contexto profesional y evolución de la IA.",
+      "2 · Complejidad técnica de la Inteligencia Artificial.",
+      "3 · Explicabilidad y toma de decisiones.",
+      "4 · Riesgos asociados a la IA.",
+      "5 · Gobernanza y contexto nacional.",
     ],
-    source: "Anexo del paper",
+    subtitle: "Aplicada a 2 expertos (juicio) · 30–60 min · presencial o virtual",
+    source: "Anexos del paper",
     notes:
-      "Listar las 5 secciones temáticas del instrumento. Completar los nombres con el anexo del paper antes de exponer.",
+      "Instrumento semiestructurado con preguntas abiertas por sección + complementarias opcionales; respuestas registradas con consentimiento.",
   },
 ];
 
