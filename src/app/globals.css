@@ -1,15 +1,59 @@
 @import "tailwindcss";
 
 /*
- * Tokens mínimos del scaffolding (Fase 1).
- * El sistema de diseño completo se define en la Fase 2
- * a partir de 03-diseno/sistema-de-diseno.md.
+ * Sistema de diseño (Fase 2) — 03-diseno/sistema-de-diseno.md.
+ * Este archivo es el ÚNICO lugar donde se escriben valores hex:
+ * los componentes consumen exclusivamente tokens/utilidades.
+ * Espejo en JS (para GSAP/SVG): src/design/tokens.ts.
  */
 @theme {
+  /* Paleta (dark, tema principal). Contraste verificado sobre bg y bg-elev:
+     fg 17.4:1 · fg-muted 8.7:1 · primary 5.1:1 · accent 9.9:1 ·
+     warning 9.3:1 · danger 5.9:1 · ring 7.6:1 (todos ≥ 4.5:1 AA).
+     primary-strong 3.7:1 → solo uso decorativo/texto grande, nunca texto pequeño. */
   --color-bg: #0b1020;
+  --color-bg-elev: #141b30;
   --color-fg: #f2f5ff;
   --color-fg-muted: #a7b0c8;
   --color-primary: #4f7cff;
+  --color-primary-strong: #2e5bff;
+  --color-accent: #22d3a6;
+  --color-warning: #f5a524;
+  --color-danger: #f25f5c;
+  --color-border: #2a3350;
+  --color-ring: #7aa2ff;
+
+  /* Radios */
+  --radius-card: 16px;
+  --radius-chip: 12px;
+
+  /* Sombra suave para tarjetas (elevación discreta y consistente) */
+  --shadow-card: 0 8px 24px rgb(0 0 0 / 0.25);
+
+  /* Escala tipográfica fluida (laptop → proyector 1920×1080).
+     Genera utilidades text-display, text-slide-title, etc. */
+  --text-display: clamp(3rem, 6vw, 5.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--font-weight: 700;
+  --text-slide-title: clamp(2.25rem, 4vw, 4rem);
+  --text-slide-title--line-height: 1.1;
+  --text-slide-title--font-weight: 700;
+  --text-subtitle: clamp(1.375rem, 2.4vw, 2.125rem);
+  --text-subtitle--line-height: 1.2;
+  --text-subtitle--font-weight: 600;
+  --text-body-slide: clamp(1.25rem, 1.8vw, 1.75rem);
+  --text-body-slide--line-height: 1.5;
+  --text-kicker: clamp(0.875rem, 1.1vw, 1.125rem);
+  --text-kicker--line-height: 1.2;
+  --text-kicker--font-weight: 600;
+  --text-kpi: clamp(4rem, 9vw, 10rem);
+  --text-kpi--line-height: 1;
+  --text-kpi--font-weight: 700;
+  --text-source: clamp(0.75rem, 1vw, 1rem);
+  --text-source--line-height: 1.4;
+
+  /* Espaciado propio del deck (p-slide, gap-slide…) */
+  --spacing-slide: clamp(3rem, 6vw, 7.5rem);
 }
 
 /* Fuentes cargadas con next/font en layout.tsx, expuestas como
@@ -17,9 +61,63 @@
 @theme inline {
   --font-display: var(--font-space-grotesk);
   --font-body: var(--font-inter);
+
+  /* Acento de la sección activa (resuelto en cascada por data-section).
+     Utilidades: text-section / bg-section / border-section …
+     y text-section-text para texto pequeño con AA garantizado. */
+  --color-section: var(--section-accent);
+  --color-section-text: var(--section-accent-text);
+}
+
+/*
+ * Acentos por sección (sutiles: kicker + línea, nunca fondos completos).
+ * --section-accent       → líneas/decoración (puede ser AA-large).
+ * --section-accent-text  → texto pequeño (kicker): siempre ≥ 4.5:1.
+ * Conclusiones: primary-strong solo decora; el texto usa primary (AA).
+ */
+[data-section] {
+  --section-accent: var(--color-primary);
+  --section-accent-text: var(--color-primary);
+}
+
+[data-section="introduccion"] {
+  --section-accent: var(--color-danger);
+  --section-accent-text: var(--color-danger);
+}
+
+[data-section="marco-teorico"],
+[data-section="resultados"] {
+  --section-accent: var(--color-accent);
+  --section-accent-text: var(--color-accent);
+}
+
+[data-section="discusion"] {
+  --section-accent: var(--color-warning);
+  --section-accent-text: var(--color-warning);
+}
+
+[data-section="conclusiones"] {
+  --section-accent: var(--color-primary-strong);
+  --section-accent-text: var(--color-primary);
+}
+
+[data-section="referencias"] {
+  --section-accent: var(--color-fg-muted);
+  --section-accent-text: var(--color-fg-muted);
 }
 
 body {
   background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+/* Foco siempre visible (accesibilidad AA, no negociable) */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background-color: var(--color-primary);
   color: var(--color-fg);
 }
