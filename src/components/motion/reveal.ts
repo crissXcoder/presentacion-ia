@@ -19,11 +19,11 @@ export function revealSlideContent(scope: HTMLElement): gsap.core.Tween {
     return gsap.from(targets, { opacity: 0, duration: 0.15, ease: "none" });
   }
   return gsap.from(targets, {
-    y: 16,
+    y: 24,
     opacity: 0,
-    duration: 0.5,
-    ease: "power3.out",
-    stagger: 0.05,
+    duration: 0.6,
+    ease: "power4.out",
+    stagger: 0.08,
   });
 }
 
@@ -49,11 +49,11 @@ export function appendReveal(
   return timeline.from(
     targets,
     {
-      y: 16,
+      y: 24,
       opacity: 0,
-      duration: 0.5,
-      ease: "power3.out",
-      stagger: 0.05,
+      duration: 0.6,
+      ease: "power4.out",
+      stagger: 0.08,
       immediateRender: true,
     },
     position,
