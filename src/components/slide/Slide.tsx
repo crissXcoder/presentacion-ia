@@ -1,5 +1,9 @@
 import Image from "next/image";
-import type { SlideData } from "@/content/slides.types";
+import type { SlideData, SlideVisual } from "@/content/slides.types";
+import { ComplexityCurve } from "@/components/visuals/ComplexityCurve";
+import { McpDiagram } from "@/components/visuals/McpDiagram";
+import { RiskPyramid } from "@/components/visuals/RiskPyramid";
+import { TriangulationDiagram } from "@/components/visuals/TriangulationDiagram";
 import { Bullet } from "@/components/slide/Bullet";
 import { CardGrid } from "@/components/slide/CardGrid";
 import { DataTable } from "@/components/slide/DataTable";
@@ -24,7 +28,16 @@ function resolveLayout(data: SlideData): SlideLayout {
   return "text";
 }
 
-/** Marcador temporal para los diagramas que se construyen en Fase 4. */
+/** Diagramas propios (Fase 4); "image" llega como asset en la Fase 5. */
+const diagramComponents: Partial<Record<SlideVisual, () => React.JSX.Element>> =
+  {
+    "complexity-curve": ComplexityCurve,
+    "risk-pyramid": RiskPyramid,
+    triangulation: TriangulationDiagram,
+    mcp: McpDiagram,
+  };
+
+/** Marcador para los assets de imagen que se integran en la Fase 5. */
 function VisualPlaceholder({ name }: { name: string }) {
   return (
     <div
@@ -32,7 +45,7 @@ function VisualPlaceholder({ name }: { name: string }) {
       className="flex aspect-video w-full items-center justify-center rounded-card border border-dashed border-border bg-bg-elev/40"
     >
       <span className="text-source uppercase tracking-[0.2em] text-fg-muted">
-        {name} · Fase 4
+        {name}
       </span>
     </div>
   );
@@ -52,8 +65,19 @@ function SlideVisualArea({ data }: { data: SlideData }) {
       </div>
     );
   }
-  if (data.visual && data.visual !== "cards" && data.visual !== "table") {
-    return <VisualPlaceholder name={data.visual} />;
+  if (data.visual) {
+    const Diagram = diagramComponents[data.visual];
+    if (Diagram) {
+      return (
+        <div className="flex w-full items-center justify-center">
+          <Diagram />
+        </div>
+      );
+    }
+    if (data.visual === "image") {
+      // Asset de imagen pendiente (Fase 5), con dimensiones declaradas.
+      return <VisualPlaceholder name="imagen · Fase 5" />;
+    }
   }
   return null;
 }
@@ -126,7 +150,11 @@ export function Slide({
       data-section={data.section}
       data-layout={layout}
       aria-roledescription="diapositiva"
-      aria-label={`Diapositiva ${index} de ${total}: ${data.title}`}
+      aria-label={
+        data.backup
+          ? `Diapositiva de respaldo: ${data.title}`
+          : `Diapositiva ${index} de ${total}: ${data.title}`
+      }
       className="flex h-full w-full flex-col gap-10 bg-bg p-slide text-fg"
     >
       <header

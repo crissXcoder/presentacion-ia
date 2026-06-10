@@ -2,7 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { DeckControls } from "@/components/deck/DeckControls";
 import { ProgressBar } from "@/components/deck/ProgressBar";
 import { SlideIndex } from "@/components/deck/SlideIndex";
@@ -23,6 +23,10 @@ gsap.registerPlugin(useGSAP);
  * con la URL vía history.pushState (Next lo integra sin remontar la
  * página), lo que permite que la slide saliente y la entrante coexistan
  * durante la transición GSAP sin parpadeos. popstate cubre atrás/adelante.
+ *
+ * Zonas: flujo principal (1..16) y respaldo (17..20, `backup: true`).
+ * Las flechas/teclas no cruzan de zona; a las de respaldo se llega por
+ * índice o deep-link (reparto de turnos y ronda de preguntas).
  */
 export function Deck({
   slides,
@@ -32,6 +36,10 @@ export function Deck({
   initialIndex: number;
 }) {
   const total = slides.length;
+  const mainTotal = useMemo(
+    () => slides.filter((slide) => !slide.backup).length,
+    [slides],
+  );
   const [current, setCurrent] = useState(initialIndex);
   const [incoming, setIncoming] = useState<number | null>(null);
   const [isIndexOpen, setIndexOpen] = useState(false);
@@ -59,10 +67,26 @@ export function Deck({
     [current, incoming, total],
   );
 
+  // Avance secuencial confinado a la zona actual: el flujo principal
+  // termina en la 16 (no se cuela una slide de respaldo al avanzar) y
+  // desde el respaldo no se vuelve al flujo con flechas (solo índice).
+  const step = useCallback(
+    (direction: 1 | -1) => {
+      const reference = incoming ?? current;
+      const isBackupZone = reference > mainTotal;
+      const zoneStart = isBackupZone ? mainTotal + 1 : 1;
+      const zoneEnd = isBackupZone ? total : mainTotal;
+      const target = Math.min(Math.max(reference + direction, zoneStart), zoneEnd);
+      navigate(target);
+    },
+    [current, incoming, mainTotal, navigate, total],
+  );
+
   useDeckNavigation({
-    current,
-    total,
     navigate,
+    step,
+    goHome: () => navigate(1),
+    goEnd: () => navigate(mainTotal),
     isIndexOpen,
     toggleIndex: () => setIndexOpen((open) => !open),
     closeIndex: () => setIndexOpen(false),
@@ -95,10 +119,19 @@ export function Deck({
   }, []);
 
   const displayIndex = incoming ?? current;
+  const isBackup = displayIndex > mainTotal;
+  // Numeración (regla D6): solo cuenta el flujo principal; las slides
+  // de respaldo se identifican como B1..B4 sin sumar al total.
+  const counterLabel = isBackup
+    ? `B${displayIndex - mainTotal} · respaldo`
+    : `${displayIndex} / ${mainTotal}`;
 
   return (
     <div className="relative h-svh w-full overflow-hidden bg-bg">
-      <ProgressBar current={displayIndex} total={total} />
+      <ProgressBar
+        current={Math.min(displayIndex, mainTotal)}
+        total={mainTotal}
+      />
 
       <div
         ref={currentRef}
@@ -106,7 +139,7 @@ export function Deck({
         tabIndex={-1}
         className="absolute inset-0 outline-none"
       >
-        <Slide data={slides[current - 1]} index={current} total={total} />
+        <Slide data={slides[current - 1]} index={current} total={mainTotal} />
       </div>
 
       {incoming !== null && (
@@ -115,15 +148,20 @@ export function Deck({
           key={`incoming-${incoming}`}
           className="absolute inset-0"
         >
-          <Slide data={slides[incoming - 1]} index={incoming} total={total} />
+          <Slide
+            data={slides[incoming - 1]}
+            index={incoming}
+            total={mainTotal}
+          />
         </div>
       )}
 
       <DeckControls
-        current={displayIndex}
-        total={total}
-        onPrev={() => navigate(displayIndex - 1)}
-        onNext={() => navigate(displayIndex + 1)}
+        counterLabel={counterLabel}
+        isPrevHidden={displayIndex === 1 || displayIndex === mainTotal + 1}
+        isNextHidden={displayIndex === mainTotal || displayIndex === total}
+        onPrev={() => step(-1)}
+        onNext={() => step(1)}
         onOpenIndex={() => setIndexOpen(true)}
       />
 

@@ -53,8 +53,14 @@ export interface ImageData {
 }
 
 export interface SlideData {
-  /** Posición 1..16 en el deck. */
+  /** Posición en el arreglo: 1..16 flujo principal, 17..20 respaldo. */
   id: number;
+  /**
+   * Slide de respaldo (B1..B4): accesible por índice/deep-link para la
+   * ronda de preguntas, pero fuera del flujo principal (las flechas no
+   * entran ni salen de la zona de respaldo; la numeración n/16 no la cuenta).
+   */
+  backup?: boolean;
   section: SlideSection;
   /** Etiqueta superior, ej. "METODOLOGÍA". */
   kicker?: string;

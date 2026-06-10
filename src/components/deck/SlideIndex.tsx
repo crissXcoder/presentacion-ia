@@ -5,9 +5,46 @@ import { useEffect, useRef } from "react";
 import type { SlideData } from "@/content/slides.types";
 import { cn } from "@/lib/cn";
 
+function IndexEntry({
+  slide,
+  target,
+  code,
+  isCurrent,
+  onNavigate,
+}: {
+  slide: SlideData;
+  target: number;
+  code: string;
+  isCurrent: boolean;
+  onNavigate: (to: number) => void;
+}) {
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={() => onNavigate(target)}
+        aria-current={isCurrent ? "true" : undefined}
+        data-section={slide.section}
+        className={cn(
+          "flex w-full cursor-pointer items-baseline gap-3 rounded-chip border px-4 py-3 text-left transition-colors duration-150",
+          isCurrent
+            ? "border-primary bg-bg text-fg"
+            : "border-transparent text-fg-muted hover:border-border hover:bg-bg hover:text-fg",
+        )}
+      >
+        <span className="text-source tabular-nums text-section-text">
+          {code}
+        </span>
+        <span className="text-base leading-snug">{slide.title}</span>
+      </button>
+    </li>
+  );
+}
+
 /**
- * Índice del deck (tecla I o botón): lista las slides para saltar a
- * cualquiera por deep-link (reparto de turnos). Esc o clic fuera cierran.
+ * Índice del deck (tecla I o botón): lista el flujo principal y, aparte,
+ * las slides de respaldo (única vía junto al deep-link para llegar a
+ * ellas: no entran en el flujo de flechas). Esc o clic fuera cierran.
  */
 export function SlideIndex({
   slides,
@@ -23,6 +60,8 @@ export function SlideIndex({
   onClose: () => void;
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const mainCount = slides.filter((slide) => !slide.backup).length;
+  const backups = slides.filter((slide) => slide.backup);
 
   useEffect(() => {
     if (isOpen) panelRef.current?.focus();
@@ -55,33 +94,42 @@ export function SlideIndex({
             <X aria-hidden="true" size={20} strokeWidth={2} />
           </button>
         </div>
-        <ol className="grid gap-2 md:grid-cols-2">
-          {slides.map((slide, slideIndex) => {
-            const target = slideIndex + 1;
-            const isCurrent = target === current;
-            return (
-              <li key={slide.id}>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(target)}
-                  aria-current={isCurrent ? "true" : undefined}
-                  data-section={slide.section}
-                  className={cn(
-                    "flex w-full cursor-pointer items-baseline gap-3 rounded-chip border px-4 py-3 text-left transition-colors duration-150",
-                    isCurrent
-                      ? "border-primary bg-bg text-fg"
-                      : "border-transparent text-fg-muted hover:border-border hover:bg-bg hover:text-fg",
-                  )}
-                >
-                  <span className="text-source tabular-nums text-section-text">
-                    {String(target).padStart(2, "0")}
-                  </span>
-                  <span className="text-base leading-snug">{slide.title}</span>
-                </button>
-              </li>
-            );
-          })}
+
+        <ol className="grid gap-2 md:grid-cols-2" aria-label="Flujo principal">
+          {slides.slice(0, mainCount).map((slide, slideIndex) => (
+            <IndexEntry
+              key={slide.id}
+              slide={slide}
+              target={slideIndex + 1}
+              code={String(slideIndex + 1).padStart(2, "0")}
+              isCurrent={slideIndex + 1 === current}
+              onNavigate={onNavigate}
+            />
+          ))}
         </ol>
+
+        {backups.length > 0 && (
+          <>
+            <h3 className="mb-3 mt-8 text-kicker font-semibold uppercase tracking-[0.2em] text-fg-muted">
+              Respaldo · ronda de preguntas
+            </h3>
+            <ol
+              className="grid gap-2 md:grid-cols-2"
+              aria-label="Slides de respaldo"
+            >
+              {backups.map((slide, backupIndex) => (
+                <IndexEntry
+                  key={slide.id}
+                  slide={slide}
+                  target={mainCount + backupIndex + 1}
+                  code={`B${backupIndex + 1}`}
+                  isCurrent={mainCount + backupIndex + 1 === current}
+                  onNavigate={onNavigate}
+                />
+              ))}
+            </ol>
+          </>
+        )}
       </div>
     </div>
   );

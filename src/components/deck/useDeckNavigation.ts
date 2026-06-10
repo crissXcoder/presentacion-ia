@@ -6,9 +6,11 @@ export interface NavigateOptions {
 }
 
 interface DeckNavigationArgs {
-  current: number;
-  total: number;
   navigate: (to: number, options?: NavigateOptions) => void;
+  /** Avanza/retrocede respetando la zona (flujo principal o respaldo). */
+  step: (direction: 1 | -1) => void;
+  goHome: () => void;
+  goEnd: () => void;
   isIndexOpen: boolean;
   toggleIndex: () => void;
   closeIndex: () => void;
@@ -17,12 +19,15 @@ interface DeckNavigationArgs {
 /**
  * Navegación global del deck: teclado (← → / Espacio / PageUp-Down /
  * Home / End, I para el índice, Esc cierra) y botones atrás/adelante
- * del navegador (popstate). Los límites 1..total los aplica navigate.
+ * del navegador (popstate). Los límites de cada zona (flujo principal
+ * 1..16, respaldo 17..20) los aplica `step` en el Deck; las slides de
+ * respaldo solo se alcanzan por índice o deep-link.
  */
 export function useDeckNavigation({
-  current,
-  total,
   navigate,
+  step,
+  goHome,
+  goEnd,
   isIndexOpen,
   toggleIndex,
   closeIndex,
@@ -47,27 +52,27 @@ export function useDeckNavigation({
         case "PageDown":
         case " ":
           event.preventDefault();
-          navigate(current + 1);
+          step(1);
           break;
         case "ArrowLeft":
         case "PageUp":
           event.preventDefault();
-          navigate(current - 1);
+          step(-1);
           break;
         case "Home":
           event.preventDefault();
-          navigate(1);
+          goHome();
           break;
         case "End":
           event.preventDefault();
-          navigate(total);
+          goEnd();
           break;
       }
     }
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [current, total, navigate, isIndexOpen, toggleIndex, closeIndex]);
+  }, [step, goHome, goEnd, isIndexOpen, toggleIndex, closeIndex]);
 
   useEffect(() => {
     function onPopState() {

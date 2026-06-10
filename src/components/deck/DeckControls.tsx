@@ -11,18 +11,21 @@ const buttonClasses =
 
 /**
  * Controles de navegación: índice, anterior/siguiente (táctiles ≥44px,
- * ocultos en los extremos sin mover el layout) e indicador "n / total"
- * con cifras tabulares (regla D6).
+ * ocultos en los extremos de cada zona sin mover el layout) e indicador
+ * con cifras tabulares (regla D6): "n / 16" en el flujo principal,
+ * "B1 · respaldo" en las slides de respaldo.
  */
 export function DeckControls({
-  current,
-  total,
+  counterLabel,
+  isPrevHidden,
+  isNextHidden,
   onPrev,
   onNext,
   onOpenIndex,
 }: {
-  current: number;
-  total: number;
+  counterLabel: string;
+  isPrevHidden: boolean;
+  isNextHidden: boolean;
   onPrev: () => void;
   onNext: () => void;
   onOpenIndex: () => void;
@@ -41,21 +44,21 @@ export function DeckControls({
         type="button"
         onClick={onPrev}
         aria-label="Diapositiva anterior"
-        className={cn(buttonClasses, current === 1 && "invisible")}
+        className={cn(buttonClasses, isPrevHidden && "invisible")}
       >
         <ChevronLeft aria-hidden="true" size={20} strokeWidth={2} />
       </button>
       <span
         aria-live="polite"
-        className="min-w-[4.5rem] text-center text-source tabular-nums text-fg-muted"
+        className="min-w-18 text-center text-source tabular-nums text-fg-muted"
       >
-        {current} / {total}
+        {counterLabel}
       </span>
       <button
         type="button"
         onClick={onNext}
         aria-label="Diapositiva siguiente"
-        className={cn(buttonClasses, current === total && "invisible")}
+        className={cn(buttonClasses, isNextHidden && "invisible")}
       >
         <ChevronRight aria-hidden="true" size={20} strokeWidth={2} />
       </button>
