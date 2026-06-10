@@ -8,6 +8,7 @@ import { Bullet } from "@/components/slide/Bullet";
 import { CardGrid } from "@/components/slide/CardGrid";
 import { DataTable } from "@/components/slide/DataTable";
 import { Kpi } from "@/components/slide/Kpi";
+import { PortadaBackground } from "@/components/slide/PortadaBackground";
 import { SlideKicker } from "@/components/slide/SlideKicker";
 import { SlideTitle } from "@/components/slide/SlideTitle";
 import { SourceTag } from "@/components/slide/SourceTag";
@@ -155,8 +156,9 @@ export function Slide({
           ? `Diapositiva de respaldo: ${data.title}`
           : `Diapositiva ${index} de ${total}: ${data.title}`
       }
-      className="flex h-full w-full flex-col gap-10 bg-bg p-slide text-fg"
+      className="relative isolate flex h-full w-full flex-col gap-10 bg-bg p-slide text-fg"
     >
+      {data.section === "portada" && <PortadaBackground />}
       <header
         className={cn(
           "flex flex-col gap-4",
