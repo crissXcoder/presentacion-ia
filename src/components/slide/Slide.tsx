@@ -155,11 +155,10 @@ export function Slide({
 
       <SlideBody data={data} layout={layout} />
 
-      <footer className="flex items-end justify-between gap-4" data-reveal>
+      {/* La numeración n/total visible la pone DeckControls (una sola
+          fuente); index/total alimentan aquí el aria-label de la slide. */}
+      <footer className="flex min-h-6 items-end justify-between gap-4" data-reveal>
         <div>{data.source && <SourceTag>{data.source}</SourceTag>}</div>
-        <span className="text-source tabular-nums text-fg-muted">
-          {index} / {total}
-        </span>
       </footer>
     </section>
   );
