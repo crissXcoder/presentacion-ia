@@ -190,7 +190,7 @@ export function Slide({
           ? `Diapositiva de respaldo: ${data.title}`
           : `Diapositiva ${index} de ${total}: ${data.title}`
       }
-      className="relative isolate flex h-full w-full flex-col gap-[clamp(1rem,3vh,2.5rem)] bg-bg p-slide text-fg"
+      className="relative isolate flex h-full w-full flex-col gap-[clamp(1rem,3vh,2.5rem)] bg-bg p-slide pb-20 md:p-slide text-fg"
     >
       {data.section === "portada" && <PortadaBackground />}
       <header

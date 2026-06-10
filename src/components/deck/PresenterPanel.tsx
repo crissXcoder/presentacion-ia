@@ -46,7 +46,7 @@ export function PresenterPanel({
     <aside
       role="complementary"
       aria-label="Notas del presentador"
-      className="absolute bottom-4 left-4 z-20 w-[min(26rem,calc(100vw-2rem))] rounded-card border border-border bg-bg-elev/90 p-5 shadow-card backdrop-blur-sm"
+      className="absolute top-4 left-4 md:top-auto md:bottom-4 z-20 w-[min(26rem,calc(100vw-2rem))] rounded-card border border-border bg-bg-elev/90 p-5 shadow-card backdrop-blur-sm"
     >
       <div className="mb-3 flex items-center justify-between gap-4">
         <span className="text-kicker font-semibold uppercase tracking-[0.2em] text-fg-muted">

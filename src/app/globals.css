@@ -121,3 +121,30 @@ body {
   background-color: var(--color-primary);
   color: var(--color-fg);
 }
+
+/* Responsividad forzada para dispositivos móviles (≤ 768px) */
+@media (max-width: 768px) {
+  :root {
+    --text-display: clamp(1.75rem, 8vw, 2.5rem);
+    --text-slide-title: clamp(1.4rem, 7vw, 2rem);
+    --text-subtitle: clamp(1rem, 5vw, 1.25rem);
+    --text-body-slide: clamp(0.9rem, 4vw, 1.05rem);
+    --text-kicker: clamp(0.75rem, 3.5vw, 0.85rem);
+    --text-kpi: clamp(2.5rem, 12vw, 4.5rem);
+    --text-source: clamp(0.7rem, 3vw, 0.8rem);
+    --spacing-slide: 1.25rem;
+  }
+}
+
+/* Ajuste adicional para pantallas muy pequeñas (≤ 480px) */
+@media (max-width: 480px) {
+  :root {
+    --text-display: 1.5rem;
+    --text-slide-title: 1.35rem;
+    --text-subtitle: 0.95rem;
+    --text-body-slide: 0.8rem;
+    --text-kpi: 2.25rem;
+    --text-source: 0.65rem;
+    --spacing-slide: 1rem;
+  }
+}
