@@ -18,9 +18,16 @@ export async function generateMetadata({
   const slide = slides[index - 1];
   if (!slide) return { title: "Gobernanza y Riesgos en la IA" };
   if (slide.backup) {
-    return { title: `B${index - MAIN_TOTAL} · ${slide.title}` };
+    return {
+      title: `B${index - MAIN_TOTAL} · ${slide.title}`,
+      robots: { index: false, follow: false },
+    };
   }
-  return { title: `${index}/${MAIN_TOTAL} · ${slide.title}` };
+  return {
+    title: `${index}/${MAIN_TOTAL} · ${slide.title}`,
+    description: slide.subtitle ?? slide.title,
+    alternates: { canonical: `/slide/${index}` },
+  };
 }
 
 export default async function SlidePage({ params }: SlidePageProps) {

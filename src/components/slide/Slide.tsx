@@ -70,7 +70,7 @@ function SlideVisualArea({ data }: { data: SlideData }) {
     const Diagram = diagramComponents[data.visual];
     if (Diagram) {
       return (
-        <div className="flex w-full items-center justify-center overflow-hidden">
+        <div className="flex max-h-[45vh] w-full items-center justify-center overflow-hidden">
           <Diagram />
         </div>
       );
@@ -101,9 +101,10 @@ function SlideTextColumn({ data }: { data: SlideData }) {
 
 function SlideBody({ data, layout }: { data: SlideData; layout: SlideLayout }) {
   if (layout === "table" && data.table) {
+    const isCompact = data.table.head.length >= 3 || data.table.rows.length >= 4;
     return (
-      <div className="flex flex-1 items-center">
-        <DataTable {...data.table} />
+      <div className="min-h-0 flex-1 overflow-x-auto overflow-y-auto">
+        <DataTable {...data.table} compact={isCompact} />
       </div>
     );
   }
@@ -123,7 +124,7 @@ function SlideBody({ data, layout }: { data: SlideData; layout: SlideLayout }) {
     );
   }
   return (
-    <div className="flex max-w-5xl flex-1 flex-col justify-center">
+    <div className="flex min-h-0 max-w-5xl flex-1 flex-col justify-center">
       <SlideTextColumn data={data} />
     </div>
   );

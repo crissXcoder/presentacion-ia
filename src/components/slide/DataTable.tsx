@@ -1,12 +1,24 @@
 import type { TableData } from "@/content/slides.types";
 import { SourceTag } from "@/components/slide/SourceTag";
+import { cn } from "@/lib/cn";
 
 /** Tabla de datos con título visible y fuente (regla D4). */
-export function DataTable({ caption, source, head, rows }: TableData) {
+export function DataTable({
+  caption,
+  source,
+  head,
+  rows,
+  compact = false,
+}: TableData & { compact?: boolean }) {
   return (
-    <figure className="flex w-full flex-col gap-4" data-reveal>
+    <figure className={cn("flex w-full flex-col", compact ? "gap-2" : "gap-4")} data-reveal>
       <table className="w-full border-collapse text-left tabular-nums">
-        <caption className="caption-top pb-4 text-left font-display text-body-slide font-semibold text-fg">
+        <caption
+          className={cn(
+            "caption-top text-left font-display font-semibold text-fg",
+            compact ? "pb-2 text-sm" : "pb-4 text-body-slide",
+          )}
+        >
           {caption}
         </caption>
         <thead>
@@ -15,7 +27,10 @@ export function DataTable({ caption, source, head, rows }: TableData) {
               <th
                 key={heading}
                 scope="col"
-                className="border-b border-border pb-3 pr-6 text-kicker font-semibold uppercase tracking-[0.12em] text-fg-muted"
+                className={cn(
+                  "border-b border-border font-semibold uppercase tracking-[0.12em] text-fg-muted",
+                  compact ? "pb-2 pr-4 text-xs" : "pb-3 pr-6 text-kicker",
+                )}
               >
                 {heading}
               </th>
@@ -28,7 +43,10 @@ export function DataTable({ caption, source, head, rows }: TableData) {
               {row.map((cell, cellIndex) => (
                 <td
                   key={`${cellIndex}-${cell}`}
-                  className="border-b border-border/50 py-3 pr-6 text-body-slide text-fg"
+                  className={cn(
+                    "border-b border-border/50 text-fg",
+                    compact ? "py-2 pr-4 text-sm" : "py-3 pr-6 text-body-slide",
+                  )}
                 >
                   {cell}
                 </td>
