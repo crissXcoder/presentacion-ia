@@ -15,9 +15,9 @@ export const slides: SlideData[] = [
     title: "Gobernanza y Riesgos en la Inteligencia Artificial",
     subtitle: "El impacto de la complejidad técnica",
     bullets: [
-      "Cristhian Altamirano · Danny Abarca · David Morales",
-      "EIF 413 — Métodos de Investigación Científica en Informática",
       "Universidad Nacional, Campus Nicoya · I Ciclo 2026",
+      "Métodos de Investigación Científica en Informática",
+      "Cristhian Altamirano · Danny Abarca · David Morales",
     ],
     notes:
       "Saludo, presentación del equipo, anunciar el tema y que la exposición sigue el orden de la investigación.",
@@ -56,9 +56,12 @@ export const slides: SlideData[] = [
     section: "introduccion",
     kicker: "Pregunta de investigación",
     title: "¿Cómo condiciona la complejidad técnica la necesidad de gobernanza?",
-    subtitle:
-      "¿De qué manera la complejidad técnica de los modelos de IA reduce su explicabilidad y en qué medida esto fundamenta la necesidad de políticas de gobernanza y auditoría eficaces para mitigar riesgos inaceptables?",
-    notes: "Leer la pregunta una vez, con calma. Es el eje de todo.",
+    bullets: [
+      "Dimensión técnica: Reducción de la explicabilidad (opacidad).",
+      "Dimensión regulatoria: Necesidad de gobernanza y auditorías.",
+      "Dimensión ética: Mitigación de riesgos inaceptables.",
+    ],
+    notes: "Leer la pregunta principal y explicar las tres dimensiones que evalúa la investigación.",
   },
   {
     id: 5,
@@ -230,7 +233,7 @@ export const slides: SlideData[] = [
   {
     id: 15,
     section: "conclusiones",
-    kicker: "Conclusiones y recomendaciones",
+    kicker: "Conclusiones",
     title: "De código a norma: gobernanza como requisito",
     subtitle:
       "Limitación: estudio cualitativo con 2 expertos; no generalizable.",
@@ -238,14 +241,25 @@ export const slides: SlideData[] = [
       "IA = agente activo; gran impacto en productividad.",
       "La opacidad exige explicabilidad y auditoría.",
       "La integración avanzada amplía la superficie de ataque.",
-      "Recomendación: cultura preventiva liderada por gerencia.",
-      "Formar profesionales que integren código y gobernanza.",
     ],
     notes:
       "Responder directo a los 3 objetivos. Reconocer límites (lo pide la guía).",
   },
   {
     id: 16,
+    section: "conclusiones",
+    kicker: "Recomendaciones",
+    title: "Hacia una cultura preventiva y de formación",
+    bullets: [
+      "Fomentar una cultura preventiva liderada por la alta gerencia.",
+      "Formar profesionales que integren habilidades de código y gobernanza.",
+      "Establecer directrices internas claras sobre el uso ético y seguro de la IA.",
+    ],
+    notes:
+      "Recomendaciones realistas para la empresa y la academia basadas en los resultados.",
+  },
+  {
+    id: 17,
     section: "referencias",
     kicker: "Referencias · Cierre",
     title: "Gracias — ¿Preguntas?",
@@ -260,12 +274,12 @@ export const slides: SlideData[] = [
 
   /*
    * Slides de respaldo (B1–B4): misma plantilla, fuera del flujo principal;
-   * se alcanzan por índice o deep-link (/slide/17..20) para la ronda de
+   * se alcanzan por índice o deep-link (/slide/18..21) para la ronda de
    * preguntas. Contenido sintetizado del Capítulo 3 y los Anexos del paper
    * (docs/Grupo 4 Taller 5 - REVISADO.docx), celdas a una línea (regla D1).
    */
   {
-    id: 17,
+    id: 18,
     backup: true,
     section: "resultados",
     kicker: "Respaldo · B1",
@@ -306,7 +320,7 @@ export const slides: SlideData[] = [
       "Detalle de la matriz por categorías a–e del Capítulo 3. E1/E2 = Entrevistado 1 y 2.",
   },
   {
-    id: 18,
+    id: 19,
     backup: true,
     section: "metodologia",
     kicker: "Respaldo · B2",
@@ -350,7 +364,7 @@ export const slides: SlideData[] = [
       "Cuadro de variables completo de los Anexos: operacionaliza objetivos → variables → indicadores → técnica → instrumento.",
   },
   {
-    id: 19,
+    id: 20,
     backup: true,
     section: "discusion",
     kicker: "Respaldo · B3",
@@ -365,7 +379,7 @@ export const slides: SlideData[] = [
       "Apoyo para preguntas sobre clasificación de riesgos: inaceptable → alto → limitado → mínimo.",
   },
   {
-    id: 20,
+    id: 21,
     backup: true,
     section: "metodologia",
     kicker: "Respaldo · B4",

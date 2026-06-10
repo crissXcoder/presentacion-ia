@@ -14,11 +14,12 @@ import { SlideTitle } from "@/components/slide/SlideTitle";
 import { SourceTag } from "@/components/slide/SourceTag";
 import { cn } from "@/lib/cn";
 
-type SlideLayout = "text" | "split" | "kpi" | "table";
+type SlideLayout = "text" | "split" | "kpi" | "table" | "split-kpi";
 
 /** Decide el layout del cuerpo según los campos presentes en el dato. */
 function resolveLayout(data: SlideData): SlideLayout {
   if (data.table) return "table";
+  if (data.kpi && data.bullets?.length) return "split-kpi";
   const hasDiagramOrImage =
     data.image !== undefined ||
     (data.visual !== undefined &&
@@ -83,28 +84,56 @@ function SlideVisualArea({ data }: { data: SlideData }) {
   return null;
 }
 
-function SlideTextColumn({ data }: { data: SlideData }) {
+function SlideTextColumn({ data, excludeKpi }: { data: SlideData; excludeKpi?: boolean }) {
+  const shouldCenter =
+    data.section === "portada" ||
+    data.section === "objetivos" ||
+    data.visual === "cards";
   return (
-    <div className="flex flex-col gap-8">
-      {data.kpi && <Kpi {...data.kpi} />}
+    <div className={cn("flex flex-col gap-8", shouldCenter && "items-center text-center")}>
+      {!excludeKpi && data.kpi && <Kpi {...data.kpi} />}
       {data.bullets && data.bullets.length > 0 && (
-        <ul className="flex flex-col gap-5">
-          {data.bullets.map((bullet) => (
-            <Bullet key={bullet}>{bullet}</Bullet>
-          ))}
-        </ul>
+        shouldCenter ? (
+          <div className="flex flex-col gap-4 items-center text-center" data-reveal>
+            {data.bullets.map((bullet) => (
+              <p key={bullet} className="text-body-slide text-fg-muted max-w-[60ch] font-medium">
+                {bullet}
+              </p>
+            ))}
+          </div>
+        ) : (
+          <ul className="flex flex-col gap-5">
+            {data.bullets.map((bullet) => (
+              <Bullet key={bullet}>{bullet}</Bullet>
+            ))}
+          </ul>
+        )
       )}
-      {data.cards && data.cards.length > 0 && <CardGrid cards={data.cards} />}
+      {data.cards && data.cards.length > 0 && <CardGrid cards={data.cards} centered={shouldCenter} />}
     </div>
   );
 }
 
 function SlideBody({ data, layout }: { data: SlideData; layout: SlideLayout }) {
+  const shouldCenter =
+    data.section === "portada" ||
+    data.section === "objetivos" ||
+    data.visual === "cards";
   if (layout === "table" && data.table) {
     const isCompact = data.table.head.length >= 3 || data.table.rows.length >= 4;
     return (
       <div className="min-h-0 flex-1 overflow-x-auto overflow-y-auto">
         <DataTable {...data.table} compact={isCompact} />
+      </div>
+    );
+  }
+  if (layout === "split-kpi" && data.kpi) {
+    return (
+      <div className="grid flex-1 items-center gap-12 lg:grid-cols-2">
+        <SlideTextColumn data={data} excludeKpi={true} />
+        <div className="flex justify-center items-center">
+          <Kpi {...data.kpi} />
+        </div>
       </div>
     );
   }
@@ -124,7 +153,7 @@ function SlideBody({ data, layout }: { data: SlideData; layout: SlideLayout }) {
     );
   }
   return (
-    <div className="flex min-h-0 max-w-5xl flex-1 flex-col justify-center">
+    <div className={cn("flex min-h-0 max-w-5xl flex-1 flex-col justify-center", shouldCenter && "items-center text-center mx-auto")}>
       <SlideTextColumn data={data} />
     </div>
   );
@@ -147,6 +176,10 @@ export function Slide({
   total: number;
 }) {
   const layout = resolveLayout(data);
+  const shouldCenter =
+    data.section === "portada" ||
+    data.section === "objetivos" ||
+    data.visual === "cards";
   return (
     <section
       data-section={data.section}
@@ -163,7 +196,7 @@ export function Slide({
       <header
         className={cn(
           "flex flex-col gap-4",
-          layout === "kpi" && "items-center text-center",
+          (layout === "kpi" || shouldCenter) && "items-center text-center mx-auto",
         )}
       >
         {data.kicker && (
