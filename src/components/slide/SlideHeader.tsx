@@ -23,7 +23,7 @@ export function SlideHeader({
   // La portada conserva su reveal palabra-por-palabra (SlideTitle) y un
   // título mayor (text-display); el resto usa el clip-path "title" de R4.
   const resolvedTitleClassName =
-    titleClassName ?? (isPortada ? "text-display" : undefined);
+    titleClassName ?? (isPortada ? "text-display" : "text-slide-title");
   return (
     <header
       className={cn(

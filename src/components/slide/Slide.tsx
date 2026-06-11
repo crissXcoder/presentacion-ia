@@ -13,7 +13,7 @@ import { SlideHeader } from "@/components/slide/SlideHeader";
 import { ConcentricMotif } from "@/components/motifs/ConcentricMotif";
 import { SlideVariant } from "@/components/slide/layouts/SlideVariant";
 import { SourceTag } from "@/components/slide/SourceTag";
-import { layoutForSlide } from "@/design/slideLayouts";
+import { layoutForSlide, slideTitleClass } from "@/design/slideLayouts";
 import { cn } from "@/lib/cn";
 
 type SlideLayout = "text" | "split" | "kpi" | "table" | "split-kpi";
@@ -212,6 +212,7 @@ export function Slide({
           <SlideHeader
             data={data}
             align={shouldCenter || layout === "kpi" ? "center" : "left"}
+            titleClassName={slideTitleClass[data.id]}
           />
           <SlideBody data={data} layout={layout} />
         </>

@@ -14,10 +14,12 @@ export function EditorialLayout({
   data,
   mirror = false,
   diagonal = false,
+  titleClassName,
 }: {
   data: SlideData;
   mirror?: boolean;
   diagonal?: boolean;
+  titleClassName?: string;
 }) {
   const textZone = (
     <div
@@ -26,7 +28,7 @@ export function EditorialLayout({
         mirror ? "lg:pl-6" : "lg:pr-6",
       )}
     >
-      <SlideHeader data={data} align="left" highlight />
+      <SlideHeader data={data} align="left" highlight titleClassName={titleClassName ?? "text-slide-editorial"} />
       {data.bullets && data.bullets.length > 0 && (
         <ul className="flex max-w-[46ch] flex-col gap-5">
           {data.bullets.map((bullet) => (

@@ -30,3 +30,18 @@ export const slideLayouts: Record<number, SlideLayoutVariant> = {
 export function layoutForSlide(id: number): SlideLayoutVariant {
   return slideLayouts[id] ?? "auto";
 }
+
+/**
+ * Override de clase de título por slide (presentación pura, no contenido).
+ * - Sin entrada → el layout usa su propio default.
+ * - "editorial-*" default: text-slide-editorial (83px).
+ * - "hero-centered" default: text-display (88px).
+ * Slides 2, 4, 5, 9 tienen contenido denso → usan text-slide-content (72px).
+ */
+export const slideTitleClass: Partial<Record<number, string>> = {
+  2: "text-slide-content",
+  4: "text-slide-content",
+  5: "text-slide-content",
+  8: "text-slide-content",
+  9: "text-slide-content",
+};

@@ -7,7 +7,13 @@ import { MotifFigure } from "@/components/motifs/MotifFigure";
  * Título enorme centrado, motivo de fondo amplio y pocos elementos.
  * El contenido va por encima (z-10) del motivo ambiente (z-0).
  */
-export function HeroLayout({ data }: { data: SlideData }) {
+export function HeroLayout({
+  data,
+  titleClassName,
+}: {
+  data: SlideData;
+  titleClassName?: string;
+}) {
   return (
     <div className="relative flex min-h-0 flex-1 items-center justify-center">
       <div
@@ -22,7 +28,7 @@ export function HeroLayout({ data }: { data: SlideData }) {
           data={data}
           align="center"
           highlight
-          titleClassName="text-display max-w-[20ch]"
+          titleClassName={titleClassName ?? "text-display max-w-[20ch]"}
         />
         {data.bullets && data.bullets.length > 0 && (
           <div className="flex flex-col gap-3" data-reveal>
