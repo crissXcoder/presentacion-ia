@@ -17,7 +17,7 @@ import type { SlideLayoutVariant } from "@/content/slides.types";
 export const slideLayouts: Record<number, SlideLayoutVariant> = {
   2: "editorial-left", // intro · neural-net a la derecha
   4: "hero-centered", // pregunta de investigación · glifo ? de fondo
-  5: "hero-centered", // objetivo general · diana de fondo
+  5: "editorial-right", // objetivo general · diana a la izquierda (rompe el doble-hero 4→5)
   9: "editorial-left", // metodología · timeline-rail a la derecha
   11: "editorial-right", // resultados O1 · data-flow a la izquierda
   13: "split-diagonal", // resultados O3 · shield-grid en panel diagonal

@@ -39,6 +39,7 @@ export function EditorialLayout({
 
   const motifZone = (
     <div
+      data-layer="motif"
       className="relative hidden overflow-hidden lg:flex lg:items-center lg:justify-center"
       style={
         diagonal

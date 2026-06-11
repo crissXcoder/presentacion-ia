@@ -10,6 +10,7 @@ import { DataTable } from "@/components/slide/DataTable";
 import { Kpi } from "@/components/slide/Kpi";
 import { SlideBackground } from "@/components/slide/SlideBackground";
 import { SlideHeader } from "@/components/slide/SlideHeader";
+import { ConcentricMotif } from "@/components/motifs/ConcentricMotif";
 import { SlideVariant } from "@/components/slide/layouts/SlideVariant";
 import { SourceTag } from "@/components/slide/SourceTag";
 import { layoutForSlide } from "@/design/slideLayouts";
@@ -178,6 +179,8 @@ export function Slide({
 }) {
   const variant = layoutForSlide(data.id);
   const layout = resolveLayout(data);
+  // Cierre (slide 17): eco de la portada con ondas concéntricas de fondo.
+  const isCierre = data.section === "referencias";
   const shouldCenter =
     data.section === "portada" ||
     data.section === "objetivos" ||
@@ -195,6 +198,15 @@ export function Slide({
       className="relative isolate flex h-full w-full flex-col gap-[clamp(1rem,3vh,2.5rem)] bg-bg p-slide pb-20 md:p-slide text-fg"
     >
       <SlideBackground section={data.section} />
+      {isCierre && (
+        <div
+          data-layer="motif"
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-[-1] flex items-center justify-center overflow-hidden opacity-[0.07]"
+        >
+          <ConcentricMotif className="h-[88vh] w-[88vh] max-w-none" />
+        </div>
+      )}
       {variant === "auto" ? (
         <>
           <SlideHeader

@@ -22,7 +22,10 @@ export function OffsetGridLayout({ data }: { data: SlideData }) {
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col justify-center gap-8">
-      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.10]">
+      <div
+        data-layer="motif"
+        className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.10]"
+      >
         <MotifFigure id={data.id} className="max-h-[88%]" />
       </div>
 

@@ -14,7 +14,10 @@ export function NumberedBlocksLayout({ data }: { data: SlideData }) {
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col justify-center gap-10">
-      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.08]">
+      <div
+        data-layer="motif"
+        className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.08]"
+      >
         <MotifFigure id={data.id} className="max-h-[90%]" />
       </div>
 
@@ -29,7 +32,7 @@ export function NumberedBlocksLayout({ data }: { data: SlideData }) {
           {bullets.map((bullet, i) => (
             <div
               key={bullet}
-              data-reveal
+              data-reveal="block"
               className="relative flex flex-col gap-3 rounded-card border border-border bg-bg-elev/40 p-6 shadow-card"
             >
               <span className="font-display text-5xl font-bold leading-none tabular-nums text-section">

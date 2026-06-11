@@ -19,10 +19,18 @@ interface SlideTransitionArgs {
   onComplete: () => void;
 }
 
+/** Capas con profundidad de parallax (R4): el fondo deriva más lento que
+ *  el contenido, el motivo a velocidad intermedia. Factores de contra-deriva
+ *  (signo opuesto al wrapper): bg el mayor → parece el más lejano. */
+const BG_PARALLAX = 10;
+const MOTIF_PARALLAX = 5;
+
 /**
- * Transición horizontal estilo Reveal (la firma del deck, ADR-005):
- * saliente x→-8% con fade (power2.in, 350ms); entrante desde ±8%
- * (power3.out, 500ms) con leve solape, seguida del reveal interno.
+ * Transición horizontal estilo Reveal (la firma del deck, ADR-005) con
+ * parallax de capas (R4): el wrapper se desplaza a velocidad plena
+ * (contenido al frente) mientras `data-layer="bg"` y `data-layer="motif"`
+ * contra-derivan para aparentar mayor profundidad. Easing expresivo
+ * (entrante expo.out; saliente power4.in, ~65% de la duración de entrada).
  * Variante reducida: cross-fade de 150ms sin desplazamiento.
  */
 export function useSlideTransition({
@@ -39,6 +47,11 @@ export function useSlideTransition({
       const outgoing = currentRef.current;
       const entering = incomingRef.current;
       if (!outgoing || !entering) return;
+
+      const outBg = outgoing.querySelectorAll('[data-layer="bg"]');
+      const outMotif = outgoing.querySelectorAll('[data-layer="motif"]');
+      const inBg = entering.querySelectorAll('[data-layer="bg"]');
+      const inMotif = entering.querySelectorAll('[data-layer="motif"]');
 
       const timeline = gsap.timeline({
         onComplete: () => {
@@ -61,30 +74,54 @@ export function useSlideTransition({
         return;
       }
 
-      timeline
-        .to(outgoing, {
-          xPercent: direction * -20,
-          scale: direction === 1 ? 0.92 : 1.08,
-          opacity: 0,
-          duration: 0.5,
-          ease: "power3.inOut",
-        })
-        .fromTo(
-          entering,
-          {
-            xPercent: direction * 20,
-            scale: direction === 1 ? 1.08 : 0.92,
-            opacity: 0,
-          },
-          {
-            xPercent: 0,
-            scale: 1,
-            opacity: 1,
-            duration: 0.7,
-            ease: "power4.out",
-          },
-          "-=0.4",
+      // Salida del wrapper (velocidad plena) + capas contra-derivando.
+      timeline.to(outgoing, {
+        xPercent: direction * -22,
+        scale: direction === 1 ? 0.94 : 1.06,
+        opacity: 0,
+        duration: 0.45,
+        ease: "power4.in",
+      });
+      if (outBg.length)
+        timeline.to(
+          outBg,
+          { xPercent: direction * BG_PARALLAX, duration: 0.45, ease: "power4.in" },
+          "<",
         );
+      if (outMotif.length)
+        timeline.to(
+          outMotif,
+          { xPercent: direction * MOTIF_PARALLAX, duration: 0.45, ease: "power4.in" },
+          "<",
+        );
+
+      // Entrada del wrapper con solape + capas que recuperan su posición
+      // desde una contra-deriva menor (parecen quedarse atrás → profundidad).
+      timeline.fromTo(
+        entering,
+        {
+          xPercent: direction * 22,
+          scale: direction === 1 ? 1.06 : 0.94,
+          opacity: 0,
+        },
+        { xPercent: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out" },
+        "-=0.25",
+      );
+      if (inBg.length)
+        timeline.fromTo(
+          inBg,
+          { xPercent: direction * -BG_PARALLAX },
+          { xPercent: 0, duration: 0.7, ease: "expo.out", immediateRender: true },
+          "<",
+        );
+      if (inMotif.length)
+        timeline.fromTo(
+          inMotif,
+          { xPercent: direction * -MOTIF_PARALLAX },
+          { xPercent: 0, duration: 0.7, ease: "expo.out", immediateRender: true },
+          "<",
+        );
+
       appendReveal(timeline, entering, "-=0.5");
     },
     { dependencies: [incoming] },

@@ -148,3 +148,26 @@ body {
     --spacing-slide: 1rem;
   }
 }
+
+/*
+ * Pulso ambiente (R4): respiración casi imperceptible de un acento por slide
+ * para que la diapositiva se sienta viva una vez revelada, sin distraer.
+ * Solo CSS y desactivado por completo en prefers-reduced-motion (la clase
+ * .ambient-breathe ni siquiera existe fuera de no-preference).
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ambient-breathe {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .ambient-breathe {
+    animation: ambient-breathe 4.5s ease-in-out infinite;
+    will-change: opacity;
+  }
+}

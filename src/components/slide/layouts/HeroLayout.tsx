@@ -10,7 +10,10 @@ import { MotifFigure } from "@/components/motifs/MotifFigure";
 export function HeroLayout({ data }: { data: SlideData }) {
   return (
     <div className="relative flex min-h-0 flex-1 items-center justify-center">
-      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.16]">
+      <div
+        data-layer="motif"
+        className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.16]"
+      >
         <MotifFigure id={data.id} className="max-h-[92%] max-w-[80%]" />
       </div>
 

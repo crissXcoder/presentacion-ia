@@ -35,6 +35,16 @@ function ParticleBackground() {
       const elParticles = containerRef.current?.querySelectorAll("[data-particle]");
       if (!elParticles) return;
 
+      // Entrada "construyéndose": las partículas aparecen escalonadas desde
+      // 0 hasta su opacidad natural (gsap.from respeta el style inline).
+      gsap.from(elParticles, {
+        scale: 0,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power2.out",
+        stagger: { each: 0.12, from: "random" },
+      });
+
       elParticles.forEach((el, index) => {
         // Asignamos una deriva lenta con tiempos desfasados
         gsap.to(el, {
@@ -385,6 +395,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
   return (
     <div
       ref={scopeRef}
+      data-layer="bg"
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 z-[-1] overflow-hidden select-none bg-bg"
     >

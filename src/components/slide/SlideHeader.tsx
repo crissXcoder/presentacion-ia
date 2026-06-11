@@ -19,6 +19,11 @@ export function SlideHeader({
   highlight?: boolean;
   titleClassName?: string;
 }) {
+  const isPortada = data.section === "portada";
+  // La portada conserva su reveal palabra-por-palabra (SlideTitle) y un
+  // título mayor (text-display); el resto usa el clip-path "title" de R4.
+  const resolvedTitleClassName =
+    titleClassName ?? (isPortada ? "text-display" : undefined);
   return (
     <header
       className={cn(
@@ -31,12 +36,12 @@ export function SlideHeader({
           <SlideKicker>{data.kicker}</SlideKicker>
         </div>
       )}
-      <div data-reveal>
+      <div data-reveal={isPortada ? "" : "title"}>
         <SlideTitle
-          isPortada={data.section === "portada"}
+          isPortada={isPortada}
           isCierre={data.section === "referencias"}
           highlightKeywords={highlight}
-          className={titleClassName}
+          className={resolvedTitleClassName}
         >
           {data.title}
         </SlideTitle>
