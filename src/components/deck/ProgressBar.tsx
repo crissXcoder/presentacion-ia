@@ -8,8 +8,9 @@ import { prefersReducedMotion } from "@/components/motion/reveal";
 gsap.registerPlugin(useGSAP);
 
 /**
- * Barra fina superior con el avance del deck. Anima scaleX (nunca width,
- * por rendimiento). Decorativa: la numeración textual vive en DeckControls.
+ * Barra de progreso superior interactiva con el avance de las diapositivas.
+ * Mejorada con mayor presencia (4px), degradado de color premium y un
+ * efecto de brillo (glow) sutil de energía.
  */
 export function ProgressBar({
   current,
@@ -29,7 +30,7 @@ export function ProgressBar({
         gsap.set(fill, { scaleX: progress });
         return;
       }
-      gsap.to(fill, { scaleX: progress, duration: 0.4, ease: "power2.out" });
+      gsap.to(fill, { scaleX: progress, duration: 0.45, ease: "power2.out" });
     },
     { dependencies: [progress] },
   );
@@ -37,11 +38,11 @@ export function ProgressBar({
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-x-0 top-0 z-20 h-1 bg-border/40"
+      className="absolute inset-x-0 top-0 z-30 h-[4px] bg-border/30 select-none pointer-events-none"
     >
       <div
         ref={fillRef}
-        className="h-full w-full origin-left bg-primary"
+        className="h-full w-full origin-left bg-gradient-to-r from-primary to-accent shadow-[0_0_8px_rgba(79,124,255,0.6)]"
         style={{ transform: `scaleX(${progress})` }}
       />
     </div>

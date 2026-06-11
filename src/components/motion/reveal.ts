@@ -11,7 +11,8 @@ export function prefersReducedMotion(): boolean {
 /**
  * Reveal escalonado del contenido de una slide: los elementos marcados
  * con data-reveal aparecen en orden DOM (kicker → título → cuerpo →
- * footer) con fade + subida sutil. Variante reducida: fundido único.
+ * footer) con fade + subida sutil. En bullets se agrega escala horizontal.
+ * Variante reducida: fundido único.
  */
 export function revealSlideContent(scope: HTMLElement): gsap.core.Tween {
   const targets = scope.querySelectorAll("[data-reveal]");
@@ -20,6 +21,11 @@ export function revealSlideContent(scope: HTMLElement): gsap.core.Tween {
   }
   return gsap.from(targets, {
     y: 24,
+    scaleX: (index, target) => {
+      const t = target as HTMLElement;
+      const attr = t.getAttribute("data-reveal");
+      return t.tagName.toLowerCase() === "li" || attr === "bullet" ? 0.95 : 1;
+    },
     opacity: 0,
     duration: 0.6,
     ease: "power4.out",
@@ -50,6 +56,11 @@ export function appendReveal(
     targets,
     {
       y: 24,
+      scaleX: (index, target) => {
+        const t = target as HTMLElement;
+        const attr = t.getAttribute("data-reveal");
+        return t.tagName.toLowerCase() === "li" || attr === "bullet" ? 0.95 : 1;
+      },
       opacity: 0,
       duration: 0.6,
       ease: "power4.out",

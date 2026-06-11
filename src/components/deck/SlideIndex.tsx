@@ -67,21 +67,26 @@ export function SlideIndex({
     if (isOpen) panelRef.current?.focus();
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   return (
     <div
-      className="absolute inset-0 z-30 flex items-center justify-center bg-bg/80 p-6 backdrop-blur-sm"
+      className={cn(
+        "absolute inset-0 z-30 flex items-center justify-center bg-bg/80 p-6 backdrop-blur-sm transition-all duration-300 ease-out",
+        isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+      )}
       onClick={onClose}
+      aria-hidden={!isOpen}
     >
       <div
         ref={panelRef}
         role="dialog"
-        aria-modal="true"
+        aria-modal={isOpen ? "true" : "false"}
         aria-label="Índice de diapositivas"
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
-        className="max-h-[85svh] w-[min(64rem,92vw)] overflow-y-auto rounded-card border border-border bg-bg-elev p-8 shadow-card"
+        className={cn(
+          "max-h-[85svh] w-[min(64rem,92vw)] overflow-y-auto rounded-card border border-border bg-bg-elev p-8 shadow-card transition-all duration-300 ease-out",
+          isOpen ? "scale-100 opacity-100 translate-y-0 delay-75" : "scale-95 opacity-0 translate-y-4"
+        )}
       >
         <div className="mb-6 flex items-center justify-between gap-4">
           <h2 className="font-display text-subtitle text-fg">Índice</h2>

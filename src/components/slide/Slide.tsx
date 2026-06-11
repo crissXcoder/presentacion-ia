@@ -8,7 +8,7 @@ import { Bullet } from "@/components/slide/Bullet";
 import { CardGrid } from "@/components/slide/CardGrid";
 import { DataTable } from "@/components/slide/DataTable";
 import { Kpi } from "@/components/slide/Kpi";
-import { PortadaBackground } from "@/components/slide/PortadaBackground";
+import { SlideBackground } from "@/components/slide/SlideBackground";
 import { SlideKicker } from "@/components/slide/SlideKicker";
 import { SlideTitle } from "@/components/slide/SlideTitle";
 import { SourceTag } from "@/components/slide/SourceTag";
@@ -192,7 +192,7 @@ export function Slide({
       }
       className="relative isolate flex h-full w-full flex-col gap-[clamp(1rem,3vh,2.5rem)] bg-bg p-slide pb-20 md:p-slide text-fg"
     >
-      {data.section === "portada" && <PortadaBackground />}
+      <SlideBackground section={data.section} />
       <header
         className={cn(
           "flex flex-col gap-4",
@@ -200,13 +200,18 @@ export function Slide({
         )}
       >
         {data.kicker && (
-          <span data-reveal>
+          <div data-reveal>
             <SlideKicker>{data.kicker}</SlideKicker>
-          </span>
+          </div>
         )}
-        <span data-reveal>
-          <SlideTitle>{data.title}</SlideTitle>
-        </span>
+        <div data-reveal>
+          <SlideTitle 
+            isPortada={data.section === "portada"}
+            isCierre={data.section === "referencias"}
+          >
+            {data.title}
+          </SlideTitle>
+        </div>
         {data.subtitle && (
           <p
             data-reveal

@@ -3,6 +3,7 @@
 import { ArrowRight, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { SlideData } from "@/content/slides.types";
+import { cn } from "@/lib/cn";
 
 function formatElapsed(totalSeconds: number): string {
   const minutes = Math.floor(totalSeconds / 60);
@@ -38,15 +39,17 @@ export function PresenterPanel({
     return () => window.clearInterval(intervalId);
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   const isOverTime = elapsedSeconds >= 30 * 60;
 
   return (
     <aside
       role="complementary"
       aria-label="Notas del presentador"
-      className="absolute top-4 left-4 md:top-auto md:bottom-4 z-20 w-[min(26rem,calc(100vw-2rem))] rounded-card border border-border bg-bg-elev/90 p-5 shadow-card backdrop-blur-sm"
+      className={cn(
+        "absolute top-4 left-4 md:top-auto md:bottom-4 z-20 w-[min(26rem,calc(100vw-2rem))] rounded-card border border-border bg-bg-elev/90 p-5 shadow-card backdrop-blur-sm",
+        "transition-all duration-300 ease-out origin-top-left md:origin-bottom-left",
+        isOpen ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 -translate-y-4 md:translate-y-4 scale-95 pointer-events-none"
+      )}
     >
       <div className="mb-3 flex items-center justify-between gap-4">
         <span className="text-kicker font-semibold uppercase tracking-[0.2em] text-fg-muted">

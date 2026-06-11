@@ -63,29 +63,29 @@ export function useSlideTransition({
 
       timeline
         .to(outgoing, {
-          xPercent: direction * -12,
-          scale: direction === 1 ? 0.94 : 1.04,
+          xPercent: direction * -20,
+          scale: direction === 1 ? 0.92 : 1.08,
           opacity: 0,
-          duration: 0.45,
-          ease: "power2.inOut",
+          duration: 0.5,
+          ease: "power3.inOut",
         })
         .fromTo(
           entering,
           {
-            xPercent: direction * 12,
-            scale: direction === 1 ? 1.04 : 0.94,
+            xPercent: direction * 20,
+            scale: direction === 1 ? 1.08 : 0.92,
             opacity: 0,
           },
           {
             xPercent: 0,
             scale: 1,
             opacity: 1,
-            duration: 0.6,
-            ease: "power3.out",
+            duration: 0.7,
+            ease: "power4.out",
           },
-          "-=0.35",
+          "-=0.4",
         );
-      appendReveal(timeline, entering, "-=0.45");
+      appendReveal(timeline, entering, "-=0.5");
     },
     { dependencies: [incoming] },
   );
