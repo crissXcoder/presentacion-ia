@@ -25,7 +25,7 @@ function ParticleBackground() {
     left: `${(i * 12 + 7) % 100}%`,
     top: `${(i * 17 + 13) % 100}%`,
     color: i % 3 === 0 ? "var(--color-primary)" : "var(--section-accent)",
-    opacity: i % 2 === 0 ? 0.08 : 0.12,
+    opacity: i % 2 === 0 ? 0.16 : 0.22,
   }));
 
   useGSAP(
@@ -117,7 +117,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
           <>
             <div
               data-halo="primary"
-              className="absolute -top-[20%] left-[-12%] h-[70vh] w-[55vw] rounded-full opacity-15 blur-3xl pointer-events-none"
+              className="absolute -top-[20%] left-[-12%] h-[70vh] w-[55vw] rounded-full opacity-20 blur-3xl pointer-events-none"
               style={{
                 background:
                   "radial-gradient(closest-side, var(--color-primary), transparent)",
@@ -125,7 +125,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
             />
             <div
               data-halo="accent"
-              className="absolute -bottom-[25%] right-[-10%] h-[60vh] w-[45vw] rounded-full opacity-10 blur-3xl pointer-events-none"
+              className="absolute -bottom-[25%] right-[-10%] h-[60vh] w-[45vw] rounded-full opacity-[0.18] blur-3xl pointer-events-none"
               style={{
                 background:
                   "radial-gradient(closest-side, var(--color-accent), transparent)",
@@ -136,7 +136,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "introduccion":
         return (
           <div
-            className="absolute -top-[10%] -right-[10%] h-[50vh] w-[40vw] rounded-full opacity-[0.08] blur-3xl pointer-events-none"
+            className="absolute -top-[10%] -right-[10%] h-[50vh] w-[40vw] rounded-full opacity-[0.18] blur-3xl pointer-events-none"
             style={{
               background:
                 "radial-gradient(closest-side, var(--section-accent), transparent)",
@@ -146,7 +146,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "objetivos":
         return (
           <div
-            className="absolute -top-[15%] left-[30%] h-[45vh] w-[40vw] rounded-full opacity-[0.08] blur-3xl pointer-events-none"
+            className="absolute -top-[15%] left-[30%] h-[45vh] w-[40vw] rounded-full opacity-[0.18] blur-3xl pointer-events-none"
             style={{
               background:
                 "radial-gradient(closest-side, var(--section-accent), transparent)",
@@ -157,14 +157,14 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
         return (
           <>
             <div
-              className="absolute -top-[10%] -left-[10%] h-[45vh] w-[35vw] rounded-full opacity-[0.06] blur-3xl pointer-events-none"
+              className="absolute -top-[10%] -left-[10%] h-[45vh] w-[35vw] rounded-full opacity-[0.16] blur-3xl pointer-events-none"
               style={{
                 background:
                   "radial-gradient(closest-side, var(--section-accent), transparent)",
               }}
             />
             <div
-              className="absolute -bottom-[15%] -right-[10%] h-[45vh] w-[35vw] rounded-full opacity-[0.06] blur-3xl pointer-events-none"
+              className="absolute -bottom-[15%] -right-[10%] h-[45vh] w-[35vw] rounded-full opacity-[0.16] blur-3xl pointer-events-none"
               style={{
                 background:
                   "radial-gradient(closest-side, var(--color-primary), transparent)",
@@ -175,7 +175,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "metodologia":
         return (
           <div
-            className="absolute top-[20%] -left-[15%] h-[55vh] w-[35vw] rounded-full opacity-[0.08] blur-3xl pointer-events-none"
+            className="absolute top-[20%] -left-[15%] h-[55vh] w-[35vw] rounded-full opacity-[0.18] blur-3xl pointer-events-none"
             style={{
               background:
                 "radial-gradient(closest-side, var(--section-accent), transparent)",
@@ -185,7 +185,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "resultados":
         return (
           <div
-            className="absolute -bottom-[15%] -right-[10%] h-[55vh] w-[40vw] rounded-full opacity-[0.08] blur-3xl pointer-events-none"
+            className="absolute -bottom-[15%] -right-[10%] h-[55vh] w-[40vw] rounded-full opacity-[0.18] blur-3xl pointer-events-none"
             style={{
               background:
                 "radial-gradient(closest-side, var(--section-accent), transparent)",
@@ -195,7 +195,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "discusion":
         return (
           <div
-            className="absolute -top-[15%] -left-[10%] h-[50vh] w-[40vw] rounded-full opacity-[0.08] blur-3xl pointer-events-none"
+            className="absolute -top-[15%] -left-[10%] h-[50vh] w-[40vw] rounded-full opacity-[0.18] blur-3xl pointer-events-none"
             style={{
               background:
                 "radial-gradient(closest-side, var(--section-accent), transparent)",
@@ -205,7 +205,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "conclusiones":
         return (
           <div
-            className="absolute top-[10%] left-[25%] h-[60vh] w-[50vw] rounded-full opacity-[0.10] blur-3xl pointer-events-none"
+            className="absolute top-[10%] left-[25%] h-[60vh] w-[50vw] rounded-full opacity-[0.20] blur-3xl pointer-events-none"
             style={{
               background:
                 "radial-gradient(closest-side, var(--section-accent), transparent)",
@@ -215,7 +215,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "referencias":
         return (
           <div
-            className="absolute -bottom-[20%] left-[30%] h-[40vh] w-[40vw] rounded-full opacity-[0.05] blur-3xl pointer-events-none"
+            className="absolute -bottom-[20%] left-[30%] h-[40vh] w-[40vw] rounded-full opacity-[0.15] blur-3xl pointer-events-none"
             style={{
               background:
                 "radial-gradient(closest-side, var(--section-accent), transparent)",
@@ -235,7 +235,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "conclusiones":
         return (
           <svg
-            className="absolute inset-0 h-full w-full opacity-[0.05] pointer-events-none"
+            className="absolute inset-0 h-full w-full opacity-[0.12] pointer-events-none"
             aria-hidden="true"
           >
             <defs>
@@ -254,7 +254,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "marco-teorico":
         return (
           <svg
-            className="absolute inset-0 h-full w-full opacity-[0.06] pointer-events-none"
+            className="absolute inset-0 h-full w-full opacity-[0.13] pointer-events-none"
             aria-hidden="true"
           >
             <defs>
@@ -273,7 +273,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "introduccion":
         return (
           <svg
-            className="absolute inset-0 h-full w-full opacity-[0.04] pointer-events-none"
+            className="absolute inset-0 h-full w-full opacity-[0.11] pointer-events-none"
             aria-hidden="true"
           >
             <defs>
@@ -299,7 +299,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "metodologia":
         return (
           <svg
-            className="absolute inset-0 h-full w-full opacity-[0.04] pointer-events-none"
+            className="absolute inset-0 h-full w-full opacity-[0.11] pointer-events-none"
             aria-hidden="true"
           >
             <defs>
@@ -333,7 +333,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "resultados":
         return (
           <svg
-            className="absolute inset-0 h-full w-full opacity-[0.07] pointer-events-none"
+            className="absolute inset-0 h-full w-full opacity-[0.14] pointer-events-none"
             aria-hidden="true"
           >
             <defs>
@@ -352,7 +352,7 @@ export function SlideBackground({ section }: SlideBackgroundProps) {
       case "discusion":
         return (
           <svg
-            className="absolute inset-0 h-full w-full opacity-[0.04] pointer-events-none"
+            className="absolute inset-0 h-full w-full opacity-[0.11] pointer-events-none"
             aria-hidden="true"
           >
             <defs>

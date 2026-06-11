@@ -26,6 +26,39 @@ export type SlideVisual =
   | "table"
   | "image";
 
+/**
+ * Motivo visual que enriquece una slide (no es contenido; es presentación).
+ * Se asocia por `id` de slide en `src/design/slideMotifs.ts`, sin tocar el
+ * contenido de `slides.ts`. Las slides con visual propio (KPI, diagrama,
+ * cards, tabla, imagen) usan "none".
+ */
+export type SlideMotif =
+  | "neural-net" // red neuronal / nodos conectados (intro, marco teórico)
+  | "data-flow" // flujo de datos / partículas dirigidas
+  | "question-glyph" // glifo tipográfico gigante "?" (pregunta de investigación)
+  | "target" // diana / objetivo concéntrico (objetivo general)
+  | "layers" // capas apiladas (complejidad / deep learning)
+  | "shield-grid" // escudo + grid (gobernanza / riesgos)
+  | "timeline-rail" // riel de progresión (metodología / fases)
+  | "big-number" // número de slide gigante de fondo (genérico)
+  | "concentric" // círculos concéntricos animados (conclusiones)
+  | "none"; // slides que ya tienen visual propio (KPI, diagrama, cards, tabla)
+
+/**
+ * Variante de composición de la slide (R3): cómo se DISTRIBUYE en pantalla
+ * el contenido (no es contenido). Se asigna por `id` en
+ * `src/design/slideLayouts.ts`. "auto" = layout estructurado dirigido por
+ * los datos (slides con visual propio: KPI, diagrama, cards, tabla, imagen).
+ */
+export type SlideLayoutVariant =
+  | "editorial-left" // texto izquierda, motivo a sangre derecha (estilo revista)
+  | "editorial-right" // espejo: motivo izquierda, texto derecha
+  | "hero-centered" // título enorme centrado, motivo de fondo amplio (impacto)
+  | "numbered-blocks" // bullets enumerables → bloques con número grande
+  | "offset-grid" // bullets escalonados/zigzag sobre el motivo de fondo
+  | "split-diagonal" // división diagonal entre texto y motivo, con seam de acento
+  | "auto"; // layout estructurado por datos (sin variante)
+
 export interface KpiData {
   /** Cifra mostrada en grande, ej. "66%". */
   value: string;

@@ -108,7 +108,7 @@ export function Kpi({ value, label }: KpiData) {
   return (
     <div className="flex flex-col items-center gap-6 text-center" data-reveal>
       {/* Contenedor relativo del Gauge y el Número */}
-      <div className="relative flex h-[220px] w-[220px] items-center justify-center">
+      <div className="relative flex h-[clamp(240px,26vw,340px)] w-[clamp(240px,26vw,340px)] items-center justify-center">
         <svg
           className="absolute inset-0 h-full w-full -rotate-90 pointer-events-none select-none"
           viewBox="0 0 200 200"
@@ -148,7 +148,7 @@ export function Kpi({ value, label }: KpiData) {
         <span
           ref={numberRef}
           data-kpi-value={value}
-          className="z-10 font-display text-5xl md:text-6xl font-bold tabular-nums text-accent select-none"
+          className="z-10 font-display text-kpi font-bold leading-none tabular-nums text-accent select-none"
         >
           {value}
         </span>

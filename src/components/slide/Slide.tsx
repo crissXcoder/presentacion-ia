@@ -9,9 +9,10 @@ import { CardGrid } from "@/components/slide/CardGrid";
 import { DataTable } from "@/components/slide/DataTable";
 import { Kpi } from "@/components/slide/Kpi";
 import { SlideBackground } from "@/components/slide/SlideBackground";
-import { SlideKicker } from "@/components/slide/SlideKicker";
-import { SlideTitle } from "@/components/slide/SlideTitle";
+import { SlideHeader } from "@/components/slide/SlideHeader";
+import { SlideVariant } from "@/components/slide/layouts/SlideVariant";
 import { SourceTag } from "@/components/slide/SourceTag";
+import { layoutForSlide } from "@/design/slideLayouts";
 import { cn } from "@/lib/cn";
 
 type SlideLayout = "text" | "split" | "kpi" | "table" | "split-kpi";
@@ -175,6 +176,7 @@ export function Slide({
   index: number;
   total: number;
 }) {
+  const variant = layoutForSlide(data.id);
   const layout = resolveLayout(data);
   const shouldCenter =
     data.section === "portada" ||
@@ -183,7 +185,7 @@ export function Slide({
   return (
     <section
       data-section={data.section}
-      data-layout={layout}
+      data-layout={variant === "auto" ? layout : variant}
       aria-roledescription="diapositiva"
       aria-label={
         data.backup
@@ -193,36 +195,17 @@ export function Slide({
       className="relative isolate flex h-full w-full flex-col gap-[clamp(1rem,3vh,2.5rem)] bg-bg p-slide pb-20 md:p-slide text-fg"
     >
       <SlideBackground section={data.section} />
-      <header
-        className={cn(
-          "flex flex-col gap-4",
-          (layout === "kpi" || shouldCenter) && "items-center text-center mx-auto",
-        )}
-      >
-        {data.kicker && (
-          <div data-reveal>
-            <SlideKicker>{data.kicker}</SlideKicker>
-          </div>
-        )}
-        <div data-reveal>
-          <SlideTitle 
-            isPortada={data.section === "portada"}
-            isCierre={data.section === "referencias"}
-          >
-            {data.title}
-          </SlideTitle>
-        </div>
-        {data.subtitle && (
-          <p
-            data-reveal
-            className="max-w-[55ch] text-subtitle font-normal text-fg-muted"
-          >
-            {data.subtitle}
-          </p>
-        )}
-      </header>
-
-      <SlideBody data={data} layout={layout} />
+      {variant === "auto" ? (
+        <>
+          <SlideHeader
+            data={data}
+            align={shouldCenter || layout === "kpi" ? "center" : "left"}
+          />
+          <SlideBody data={data} layout={layout} />
+        </>
+      ) : (
+        <SlideVariant data={data} variant={variant} />
+      )}
 
       {/* La numeración n/total visible la pone DeckControls (una sola
           fuente); index/total alimentan aquí el aria-label de la slide. */}

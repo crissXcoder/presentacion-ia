@@ -1,8 +1,43 @@
 import { cn } from "@/lib/cn";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+
+/**
+ * Palabras clave del dominio que reciben el acento de sección cuando una
+ * variante pide resaltado. Es solo estilo: no altera el texto del título.
+ */
+const TITLE_KEYWORDS = new Set([
+  "complejidad",
+  "gobernanza",
+  "riesgos",
+  "explicabilidad",
+  "opacidad",
+  "auditoría",
+  "ética",
+  "norma",
+]);
+
+function normalizeWord(word: string): string {
+  return word.toLowerCase().replace(/[¿?¡!.,:;«»()"]/g, "");
+}
+
+/** Envuelve las palabras clave en un span con el acento; el resto, texto. */
+function highlightTitle(text: string): ReactNode[] {
+  const words = text.split(" ");
+  return words.flatMap((word, i) => {
+    const isKey = TITLE_KEYWORDS.has(normalizeWord(word));
+    const node = isKey ? (
+      <span key={i} className="text-section">
+        {word}
+      </span>
+    ) : (
+      <Fragment key={i}>{word}</Fragment>
+    );
+    return i < words.length - 1 ? [node, " "] : [node];
+  });
+}
 
 /**
  * Título de la slide con soporte para degradado sutil en la portada,
@@ -12,10 +47,16 @@ export function SlideTitle({
   children,
   isPortada = false,
   isCierre = false,
+  highlightKeywords = false,
+  className,
 }: {
   children: ReactNode;
   isPortada?: boolean;
   isCierre?: boolean;
+  /** Resalta palabras clave del dominio con el acento (solo estilo). */
+  highlightKeywords?: boolean;
+  /** Clases extra (ej. escalar a text-display en hero). */
+  className?: string;
 }) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
@@ -61,6 +102,8 @@ export function SlideTitle({
         {word}
       </span>
     ));
+  } else if (highlightKeywords && typeof children === "string") {
+    content = highlightTitle(children);
   }
 
   // Cierre: Eco visual mediante sombras multicapa
@@ -73,11 +116,12 @@ export function SlideTitle({
       <h1
         ref={titleRef}
         className={cn(
-          "max-w-[24ch] text-balance font-display text-slide-title leading-tight tracking-tight transition-all duration-300",
+          "max-w-[24ch] text-balance font-display text-slide-title leading-tight transition-all duration-300",
           isPortada
             ? "bg-gradient-to-br from-fg via-fg to-primary/55 bg-clip-text text-transparent"
             : "text-fg",
-          isCierre && "relative z-10 scale-[1.05] drop-shadow-2xl"
+          isCierre && "relative z-10 scale-[1.05] drop-shadow-2xl",
+          className
         )}
         style={{
           textShadow: isPortada ? "none" : cierreShadows,

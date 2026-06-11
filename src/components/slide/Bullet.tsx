@@ -1,5 +1,6 @@
 import { ChevronRight, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/cn";
 
 /**
  * Viñeta enriquecida con badge circular y línea conectora vertical
@@ -9,13 +10,19 @@ import type { ReactNode } from "react";
 export function Bullet({
   children,
   icon: Icon = ChevronRight,
+  className,
 }: {
   children: ReactNode;
   icon?: LucideIcon;
+  /** Clases extra en el <li> (ej. offsets en offset-grid). */
+  className?: string;
 }) {
   return (
     <li
-      className="group relative flex items-start gap-4 text-body-slide text-fg pb-5 last:pb-0"
+      className={cn(
+        "group relative flex items-start gap-4 text-body-slide text-fg pb-5 last:pb-0",
+        className,
+      )}
       data-reveal="bullet"
     >
       {/* Línea conectora vertical */}
